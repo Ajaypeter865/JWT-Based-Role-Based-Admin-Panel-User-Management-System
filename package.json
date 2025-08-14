@@ -4,7 +4,8 @@
   "description": "A role-based user management system built with Node.js, Express, EJS, MongoDB, and JWT authentication. Features include user sign-up/login with profile photo upload, protected routes, and an admin dashboard to view, add, edit, and block users with secure access control.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,10 @@
   },
   "homepage": "https://github.com/Ajaypeter865/JWT-Based-Role-Based-Admin-Panel-User-Management-System#readme",
   "dependencies": {
+    "dotenv": "^17.2.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.17.1",
     "nodemon": "^3.1.10"
   }
 }
