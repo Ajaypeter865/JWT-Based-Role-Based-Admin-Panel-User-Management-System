@@ -1,0 +1,43 @@
+body {
+  background-color: #f5f6fa;
+}
+
+.card {
+  border-radius: 15px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+  background: white;
+}
+
+.btn-add {
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-weight: 500;
+}
+
+.btn-update {
+  background: #8e2de2;
+  color: white;
+  border-radius: 20px;
+  padding: 5px 15px;
+  text-decoration: none;
+}
+.btn-update:hover {
+  opacity: 0.9;
+  color: white;
+}
+
+.btn-delete {
+  background: #e74c3c;
+  color: white;
+  border-radius: 20px;
+  padding: 5px 15px;
+  text-decoration: none;
+}
+.btn-delete:hover {
+  opacity: 0.9;
+  color: white;
+}
+
+.table th {
+  font-weight: 600;
+}

@@ -1,4 +1,4 @@
-// Imports
+// Imports dependency
 require('dotenv').config()
 const express = require('express')
 const { connectMongoDB } = require('./connect')
@@ -6,10 +6,14 @@ const path = require('path')
 const PORT = process.env.PORT
 
 // Module exports
-const UserRouter = require ('./routes/user')
+const staticRouter = require ('./routes/staticRouter')
+const registerRouter = require('./routes/registerRouter')
+
+
 // Middlewares
 const app = express()
-
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
 
 // Set ejs
@@ -19,10 +23,13 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-// App.get
-app.get('/', UserRouter)
 
 
+// App routes
+app.use('/', staticRouter)
+app.use('/', registerRouter)
+
+// Connect mongoDb
 connectMongoDB(process.env.DB_URI).then(() => {
     console.log('mongodb conneted');
 
