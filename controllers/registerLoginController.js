@@ -38,19 +38,25 @@ async function postRegisterUser(req, res) {
 }
 
 async function postLoginUser(req, res) {
-    const { username, password } = req.body
+    const { email, password } = req.body
     console.log(req.body);
 
     try {
-        const signupUser = await registerUser.findOne({ username })
-        if (!signupUser || signupUser.password !== password) {
-            return res.render('auth/login', {
-                error: 'Invalid Username or Password',
-                success: null
-            })
-        }
+        const signupUser = await registerUser.findOne({ email })
+        console.log('Signup user is',signupUser);
+        if (!signupUser) return res.render('auth/login', { error: 'User do not exist', success: null })
 
-        res.redirect('/users')
+        const isMatch = bcrypt.compare(password, signupUser.password)
+        if (!isMatch) return res.render('auth/login', { error: 'Password do not match', success: null })
+
+        const token = jwt.sign(
+            { id: signupUser._id, email: signupUser.email, role: 'user', name: signupUser.user_name },
+            process.env.secretKey,
+            { expiresIn: '1d' })
+
+        res.cookie('userToken', token, { httponly: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.render('dashboard/dashboard', {user : req.auth, success: null, error: null })
+
     } catch (error) {
         console.err(error),
             res.status(500).send('Server error')

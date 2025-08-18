@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const { connectMongoDB } = require('./connect')
 const path = require('path')
+const cookieParser = require('cookie-parser')
 const PORT = process.env.PORT
 
 // Module exports
@@ -14,7 +15,7 @@ const registerRouter = require('./routes/registerRouter')
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-
+app.use(cookieParser())
 
 // Set ejs
 app.set('view engine', 'ejs')

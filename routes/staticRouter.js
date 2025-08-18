@@ -1,5 +1,6 @@
 const express = require('express')
 const userModel = require('../models/User')
+const {getDashboard} = require('../controllers/dashboardController')
 
 const router = express.Router()
 
@@ -14,16 +15,19 @@ router.get('/login', async (req, res) => {
 })
 
 
-router.get('/dashboard', async (req, res) => {
-    try {
-        const user = await userModel.findOne({})
-        res.render('dashboard/dashboard', {user, success: null, error: null })
-    } catch (error) {
-        console.error(error)
-        res.render('dashboard/dashboard', { user, success: null, error: 'Failded to load dashboard' })
+router.get('/dashboard', getDashboard)
+// BACKUP DASH BOARD
 
-    }
-})
+// router.get('/dashboard', async (req, res) => {
+//     try {
+//         const user = await userModel.findOne({})
+//         res.render('dashboard/dashboard', {user, success: null, error: null })
+//     } catch (error) {
+//         console.error(error)
+//         res.render('dashboard/dashboard', { user, success: null, error: 'Failded to load dashboard' })
+
+//     }
+// })
 
 router.get('/users', async (req, res) => {
     try {
