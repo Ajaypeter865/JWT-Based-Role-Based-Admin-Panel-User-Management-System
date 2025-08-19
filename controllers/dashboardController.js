@@ -9,7 +9,7 @@ async function getDashboard(req, res) {
 
     } catch (error) {
         console.error(error)
-        res.render('auth/login', { user, success: null, error: 'Failed to load Dashboard' })
+        res.render('auth/login', {  success: null, error: 'Failed to load Dashboard' })
 
     }
 }

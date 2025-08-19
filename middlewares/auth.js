@@ -1,27 +1,35 @@
 const jwt = require('jsonwebtoken')
 
 function getToken(req) {
-    return req.cookie?.userToken
+    return req.cookies?.userToken
 }
 
 const protectedAuth = (req, res, next) => {
+     console.log("Incoming cookies:", req.cookies);
+
     const token = getToken(req)
-    const loginPath = req.orginalUrl.startsWith('/login')
+     console.log("Extracted token:", token);
+
+    // const loginPath = req.originalUrl.startsWith('/login')
+    const loginpath = req.originalUrl.startsWith('/login')
 
     if (!token) {
-        return res.redirect(loginPath)
+        console.log("No token found → redirecting to login");
+        return res.redirect('/login')
     }
     try {
         const payload = jwt.verify(token, process.env.secretKey)
 
         req.auth = payload
-
+        
+        console.log('Payload', req.auth);
+        
         next()
 
     } catch (error) {
-        console.error(error)
+        console.error("JWT verification failed:", error.message);
 
-        return res.redirect(loginPath)
+        return res.redirect("/login")
 
     }
 }
