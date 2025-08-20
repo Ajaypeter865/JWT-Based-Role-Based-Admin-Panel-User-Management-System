@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 function getToken(req) {
-    return req.cookies?.userToken
+    return req.cookies?.userToken 
 }
 
 const protectedAuth = (req, res, next) => {

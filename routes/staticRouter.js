@@ -19,6 +19,11 @@ router.get('/login', async (req, res) => {
 router.get('/dashboard', protectedAuth, getDashboard)
 
 
+
+router.get('/admin/login', async (req, res) => {
+    return res.render('admin/adminLogin', { success: null, error: null })
+})
+
 router.get('/users', async (req, res) => {
     try {
         const users = await userModel.find({})
@@ -29,5 +34,4 @@ router.get('/users', async (req, res) => {
 
     }
 })
-
 module.exports = router

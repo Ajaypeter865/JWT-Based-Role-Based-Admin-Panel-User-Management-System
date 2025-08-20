@@ -1,3 +1,4 @@
+
 body {
   background-color: #f5f6fa;
 }
@@ -40,4 +41,21 @@ body {
 
 .table th {
   font-weight: 600;
+}
+
+/* Modal Buttons */
+.modal .btn {
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-weight: 500;
+}
+
+.modal .btn-danger {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.modal .btn-primary {
+  background-color: #8e2de2;
+  color: white;
 }
