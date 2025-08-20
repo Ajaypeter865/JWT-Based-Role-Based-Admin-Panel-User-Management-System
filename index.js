@@ -9,6 +9,7 @@ const PORT = process.env.PORT
 // Module exports
 const staticRouter = require ('./routes/staticRouter')
 const registerRouter = require('./routes/registerRouter')
+const adminLoginRouter = require('./routes/adminLoginRouter')
 
 
 // Middlewares
@@ -29,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 // App routes
 app.use('/', staticRouter)
 app.use('/', registerRouter)
-
+app.use('/', adminLoginRouter)
 // Connect mongoDb
 connectMongoDB(process.env.DB_URI).then(() => {
     console.log('mongodb conneted');

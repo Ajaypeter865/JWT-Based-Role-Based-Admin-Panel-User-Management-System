@@ -5,13 +5,13 @@ function getToken(req) {
 }
 
 const protectedAuth = (req, res, next) => {
-     console.log("Incoming cookies:", req.cookies);
+    // console.log("Incoming cookies:", req.cookies);
 
     const token = getToken(req)
-     console.log("Extracted token:", token);
+    // console.log("Extracted token:", token);
 
     // const loginPath = req.originalUrl.startsWith('/login')
-    const loginpath = req.originalUrl.startsWith('/login')
+    // const loginpath = req.originalUrl.startsWith('/login')
 
     if (!token) {
         console.log("No token found → redirecting to login");
@@ -21,9 +21,9 @@ const protectedAuth = (req, res, next) => {
         const payload = jwt.verify(token, process.env.secretKey)
 
         req.auth = payload
-        
-        console.log('Payload', req.auth);
-        
+
+        // console.log('Payload', req.auth);
+
         next()
 
     } catch (error) {

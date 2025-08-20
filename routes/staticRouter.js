@@ -1,6 +1,7 @@
 const express = require('express')
 const userModel = require('../models/User')
 const { getDashboard } = require('../controllers/dashboardController')
+const { protectedAuth } = require('../middlewares/auth')
 
 const router = express.Router()
 
@@ -15,12 +16,12 @@ router.get('/login', async (req, res) => {
 })
 
 
-router.get('/dashboard', getDashboard)
+router.get('/dashboard', protectedAuth, getDashboard)
 
 
 router.get('/users', async (req, res) => {
     try {
-        const users = userModel.find({})
+        const users = await userModel.find({})
         res.render('admin/users', { users, success: 'Login succesfull', error: null })
     } catch (error) {
         console.log(error)

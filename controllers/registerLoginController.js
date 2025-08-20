@@ -1,4 +1,5 @@
 const registerUser = require('../models/User')
+
 const bcrypt = require('bcrypt')
 const saltRound = 10
 
@@ -39,11 +40,11 @@ async function postRegisterUser(req, res) {
 
 async function postLoginUser(req, res) {
     const { email, password } = req.body
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
         const signupUser = await registerUser.findOne({ email })
-        console.log('Signup user is', signupUser);
+        // console.log('Signup user is', signupUser);
         if (!signupUser) return res.render('auth/login', { error: 'User do not exist', success: null })
 
         const isMatch = await bcrypt.compare(password, signupUser.password)
@@ -58,8 +59,8 @@ async function postLoginUser(req, res) {
 
 
         res.cookie('userToken', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.render('dashboard/dashboard', { user: req.auth, success: null, error: null })
-        console.log("user", req.auth);
+        res.render('dashboard/dashboard', { user: signupUser, success: null, error: null })
+        // console.log("user", signupUser);
 
 
     } catch (error) {
