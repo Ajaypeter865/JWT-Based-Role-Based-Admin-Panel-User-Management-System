@@ -1,17 +1,13 @@
 const jwt = require('jsonwebtoken')
 
 function getToken(req) {
-    return req.cookies?.userToken 
+    return req.cookies?.userToken || req.cookies?.adminToken || null
 }
 
 const protectedAuth = (req, res, next) => {
-    // console.log("Incoming cookies:", req.cookies);
 
     const token = getToken(req)
-    // console.log("Extracted token:", token);
 
-    // const loginPath = req.originalUrl.startsWith('/login')
-    // const loginpath = req.originalUrl.startsWith('/login')
 
     if (!token) {
         console.log("No token found → redirecting to login");
@@ -22,7 +18,6 @@ const protectedAuth = (req, res, next) => {
 
         req.auth = payload
 
-        // console.log('Payload', req.auth);
 
         next()
 
@@ -34,6 +29,32 @@ const protectedAuth = (req, res, next) => {
     }
 }
 
+const protectedAuthAdmin = (req, res, next) => {
+    const token = getToken(req)
+    console.log('Token =', token);
+
+    if (!token) res.status(401).render('/admin')
+    try {
+        const payload = jwt.verify(token, process.env.secretKey)
+        console.log('payload =', payload );
+        
+        
+        // if(payload.role !== 'admin') {
+        //     res.status(401).render('/admin', error: null)
+        // }
+     
+
+        req.auth = payload
+        next()
+
+    } catch (error) {
+        console.error('JWT verification failed:', error.message);
+
+    }
+
+}
+
 module.exports = {
-    protectedAuth
+    protectedAuth,
+    protectedAuthAdmin
 }
