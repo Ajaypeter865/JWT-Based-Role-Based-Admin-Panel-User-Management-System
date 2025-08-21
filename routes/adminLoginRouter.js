@@ -3,7 +3,7 @@ const router = express.Router()
 
 const {postAdmin} = require('../controllers/adminControllers/adminLoginController')
 
-router.post('/admin/login', postAdmin)
+router.post('/admin', postAdmin)
 
 
 

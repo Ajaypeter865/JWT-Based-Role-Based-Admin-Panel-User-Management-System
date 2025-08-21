@@ -40,11 +40,10 @@ async function postRegisterUser(req, res) {
 
 async function postLoginUser(req, res) {
     const { email, password } = req.body
-    // console.log(req.body);
+  
 
     try {
         const signupUser = await registerUser.findOne({ email })
-        // console.log('Signup user is', signupUser);
         if (!signupUser) return res.render('auth/login', { error: 'User do not exist', success: null })
 
         const isMatch = await bcrypt.compare(password, signupUser.password)
@@ -55,12 +54,10 @@ async function postLoginUser(req, res) {
             process.env.secretKey,
             { expiresIn: '1d' })
 
-        // console.log(token);
-
-
+        
+        
         res.cookie('userToken', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
         res.render('dashboard/dashboard', { user: signupUser, success: null, error: null })
-        // console.log("user", signupUser);
 
 
     } catch (error) {
