@@ -9,20 +9,15 @@ require('dotenv').config()
 
 async function postRegisterUser(req, res) {
     const { username, email, password, confirmPassword } = req.body
-    console.log(req.body);
 
     if (password !== confirmPassword) {
         return res.render('auth/register', { error: 'Password do not match' })
     }
 
-
     try {
         //   NEED TO CHECK EXISTING USER HERE
 
-
         const hashedPassword = await bcrypt.hash(password, saltRound)
-        console.log(hashedPassword);
-
 
         await registerUser.create({
             user_name: username,
@@ -31,8 +26,10 @@ async function postRegisterUser(req, res) {
 
         })
         res.redirect('/login?Success=Account Created Succesfully')
+
     } catch (error) {
         console.log(error);
+
         res.redirect('auth/register', { error: 'Signup failed, Please try again' })
 
     }
@@ -41,7 +38,6 @@ async function postRegisterUser(req, res) {
 async function postLoginUser(req, res) {
     const { email, password } = req.body
   
-
     try {
         const signupUser = await registerUser.findOne({ email })
         if (!signupUser) return res.render('auth/login', { error: 'User do not exist', success: null })
@@ -53,20 +49,17 @@ async function postLoginUser(req, res) {
             { id: signupUser._id, email: signupUser.email, role: 'user', user_name: signupUser.user_name },
             process.env.secretKey,
             { expiresIn: '1d' })
-
-        
         
         res.cookie('userToken', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+
         res.render('dashboard/dashboard', { user: signupUser, success: null, error: null })
  
-
     } catch (error) {
         console.error(error),
             res.status(500).send('Server error')
 
     }
 }
-
 
 module.exports = {
     postRegisterUser,

@@ -1,10 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const {protectedAuthAdmin} = require('../middlewares/auth')
+const { protectedAuthAdmin } = require('../middlewares/auth')
 
-const {postAdmin} = require('../controllers/adminControllers/adminLoginController')
+const { postAdmin, updateUser } = require('../controllers/adminControllers/adminLoginController')
 
-router.post('/admin',protectedAuthAdmin ,postAdmin)
+router.post('/admin',  postAdmin)
+
+router.post('/admin/update-user', updateUser)
 
 
 
