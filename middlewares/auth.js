@@ -10,7 +10,6 @@ const protectedAuth = (req, res, next) => {
 
 
     if (!token) {
-        console.log("No token found → redirecting to login");
         return res.redirect('/login')
     }
     try {
@@ -30,20 +29,13 @@ const protectedAuth = (req, res, next) => {
 }
 
 const protectedAuthAdmin = (req, res, next) => {
-    const token = getToken(req)
-    console.log('Token =', token);
+    const adminToken = req.cookies?.adminToken
 
-    if (!token) res.status(401).render('/admin')
+    if (!adminToken) res.status(401).render('/admin')
     try {
-        const payload = jwt.verify(token, process.env.secretKey)
-        console.log('payload =', payload );
-        
-        
-        // if(payload.role !== 'admin') {
-        //     res.status(401).render('/admin', error: null)
-        // }
-     
-
+        const payload = jwt.verify(adminToken, process.env.secretKey)
+        console.log('payload of admin =', payload);
+       
         req.auth = payload
         next()
 

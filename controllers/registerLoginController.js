@@ -58,7 +58,7 @@ async function postLoginUser(req, res) {
         
         res.cookie('userToken', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
         res.render('dashboard/dashboard', { user: signupUser, success: null, error: null })
-
+ 
 
     } catch (error) {
         console.error(error),

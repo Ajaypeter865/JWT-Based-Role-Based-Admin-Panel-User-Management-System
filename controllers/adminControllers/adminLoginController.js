@@ -7,9 +7,9 @@ require('dotenv').config()
 
 async function postAdmin(req, res) {
     const { email, password } = req.body
-    if (!email || !password) res.status(401).render('admin', { success: null, error: 'Invalid Email or Password' })
 
     try {
+
         const loginAdmin = await adminModel.findOne({ email })
 
 
@@ -17,7 +17,7 @@ async function postAdmin(req, res) {
             return res.render('admin/adminLogin', { success: null, error: 'Invalid Email or Password' })
 
         const token = jwt.sign(
-            { id: loginAdmin._id, email: loginAdmin.email, password: loginAdmin.password, role : 'admin' }
+            { id: loginAdmin._id, email: loginAdmin.email, password: loginAdmin.password, role: 'admin' }
             , process.env.secretKey,
             { expiresIn: '1d' })
 
