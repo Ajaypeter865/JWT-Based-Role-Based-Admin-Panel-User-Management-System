@@ -5,6 +5,7 @@ const userModel = require('../../models/User')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
+const { urlencoded } = require('express')
 
 async function postAdmin(req, res) {
     const { email, password } = req.body
@@ -34,8 +35,22 @@ async function postAdmin(req, res) {
     }
 }
 
+const addUser = async (req, res) => {
+    const { email, password } = req.body
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10)
 
+        const userName = email.split('@')[0]
+         await userModel.insertOne({ email, password: hashedPassword, user_name: userName })
 
+        const users = await userModel.find()
+       return res.render('admin/users', { users, success: "User added successfully", error: null })
+
+    } catch (error) {
+        console.error('Error in addUser =', error.message, error.stack);
+
+    }
+}
 
 const updateUser = async (req, res) => {
     const { id, email, password } = req.body
@@ -76,6 +91,7 @@ const updateUser = async (req, res) => {
 
 module.exports = {
     postAdmin,
-    updateUser
+    updateUser,
+    addUser,
 
 }
