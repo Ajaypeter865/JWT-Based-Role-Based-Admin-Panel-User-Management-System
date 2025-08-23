@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/css/login.css">
 </head>
+
 <body>
 
   <div class="card">
@@ -18,34 +20,39 @@
 
     <!-- Server-side error/success messages -->
     <% if (error) { %>
-      <div class="alert alert-danger text-center"><%= error %></div>
-    <% } %>
-    <% if (success) { %>
-      <div class="alert alert-success text-center"><%= success %></div>
-    <% } %>
-
-    <form id="loginForm" action="/login" method="POST" novalidate>
-      <div class="mb-3">
-        <label for="username" class="form-label">Email</label>
-        <input type="text" class="form-control" id="username" name="email">
-        <div class="error-text">Can't make this field empty</div>
+      <div class="alert alert-danger text-center">
+        <%= error %>
       </div>
+      <% } %>
+        <% if (success) { %>
+          <div class="alert alert-success text-center">
+            <%= success %>
+          </div>
+          <% } %>
 
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password">
-        <div class="error-text">Can't make this field empty</div>
-      </div>
+            <form id="loginForm" action="/login" method="POST" novalidate>
+              <div class="mb-3">
+                <label for="username" class="form-label">Email</label>
+                <input type="text" class="form-control" id="username" name="email">
+                <div class="error-text">Can't make this field empty</div>
+              </div>
 
-      <button type="submit" class="btn btn-gradient w-100">Sign in</button>
-    </form>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+                <div class="error-text">Can't make this field empty</div>
+              </div>
 
-    <p class="text-center mt-3">
-      Don’t have an account? <a href="/">Sign up now</a>
-    </p>
+              <button type="submit" class="btn btn-gradient w-100">Sign in</button>
+            </form>
+
+            <p class="text-center mt-3">
+              Don’t have an account? <a href="/">Sign up now</a>
+            </p>
   </div>
 
   <!-- Custom JS -->
   <script src="/js/login.js" defer></script>
 </body>
+
 </html>

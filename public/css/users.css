@@ -1,61 +1,86 @@
-
+/* General page styling */
 body {
-  background-color: #f5f6fa;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Card container */
 .card {
-  border-radius: 15px;
-  box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
-  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
+/* Table styling */
+.table th, .table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Button styles */
 .btn-add {
-  border-radius: 20px;
-  padding: 6px 18px;
-  font-weight: 500;
+  margin-left: auto;
+  font-weight: bold;
+}
+
+.btn-update,
+.btn-delete,
+.btn-block,
+.btn-unblock {
+  margin: 0 4px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  color: #fff;
+  border: none;
 }
 
 .btn-update {
-  background: #8e2de2;
-  color: white;
-  border-radius: 20px;
-  padding: 5px 15px;
-  text-decoration: none;
-}
-.btn-update:hover {
-  opacity: 0.9;
-  color: white;
+  background-color: #0d6efd;
 }
 
 .btn-delete {
-  background: #e74c3c;
-  color: white;
-  border-radius: 20px;
-  padding: 5px 15px;
-  text-decoration: none;
-}
-.btn-delete:hover {
-  opacity: 0.9;
-  color: white;
+  background-color: #dc3545;
 }
 
-.table th {
+.btn-block {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.btn-unblock {
+  background-color: #198754;
+}
+
+/* Modal styling */
+.modal-content {
+  border-radius: 6px;
+}
+
+.modal-header {
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-title {
   font-weight: 600;
 }
 
-/* Modal Buttons */
-.modal .btn {
-  border-radius: 20px;
-  padding: 6px 18px;
-  font-weight: 500;
+.modal-footer button {
+  min-width: 100px;
 }
 
-.modal .btn-danger {
-  background-color: #e74c3c;
-  color: white;
-}
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .btn-add {
+    width: 100%;
+    margin-top: 10px;
+  }
 
-.modal .btn-primary {
-  background-color: #8e2de2;
-  color: white;
+  .table th, .table td {
+    font-size: 0.85rem;
+  }
 }

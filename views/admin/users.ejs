@@ -7,17 +7,12 @@
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="/css/users.css">
 </head>
 <body>
 
-  <!-- Success Message -->
   <% if (success) { %>
-    <div class="alert alert-success text-center">
-      <%= success %>
-    </div>
+    <div class="alert alert-success text-center"><%= success %></div>
   <% } %>
 
   <div class="container my-4">
@@ -46,6 +41,16 @@
                 <td>
                   <button class="btn btn-update" data-bs-toggle="modal" data-bs-target="#updateModal-<%= user.id %>">Update</button>
                   <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal-<%= user.id %>">Delete</button>
+
+                  <% if (user.status === false) { %>
+                    <form method="POST" action="/admin/block-user" style="display:inline">
+                      <input type="hidden" name="id" value="<%= user.id %>">
+                      <input type="hidden" name="status" value="true">
+                      <button class="btn btn-unblock">Unblock</button>
+                    </form>
+                  <% } else { %>
+                    <button class="btn btn-block" data-bs-toggle="modal" data-bs-target="#blockModal-<%= user.id %>">Block</button>
+                  <% } %>
                 </td>
               </tr>
 
@@ -97,6 +102,28 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Block Modal -->
+              <div class="modal fade" id="blockModal-<%= user.id %>" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form method="POST" action="/admin/block-user/<%= user.id %>">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Block User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+                      <div class="modal-body">
+                        <input type="hidden" name="id" value="<%= user.id %>">
+                        <input type="hidden" name="status" value="false">
+                        Are you sure you want to block <strong><%= user.user_name %></strong>?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Block</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
             <% }) %>
           </tbody>
         </table>
@@ -131,7 +158,6 @@
     </div>
   </div>
 
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

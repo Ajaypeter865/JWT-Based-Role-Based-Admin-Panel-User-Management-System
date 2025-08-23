@@ -41,10 +41,10 @@ const addUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10)
 
         const userName = email.split('@')[0]
-         await userModel.insertOne({ email, password: hashedPassword, user_name: userName })
+        await userModel.insertOne({ email, password: hashedPassword, user_name: userName })
 
-        const users = await userModel.find()
-       return res.render('admin/users', { users, success: "User added successfully", error: null })
+        const users = await userModel.find().sort({ createdAt: -1 })
+        return res.render('admin/users', { users, success: "User added successfully", error: null })
 
     } catch (error) {
         console.error('Error in addUser =', error.message, error.stack);
@@ -60,7 +60,7 @@ const updateUser = async (req, res) => {
         await userModel.findByIdAndUpdate(id,
             { email, password: hashedPassword })
 
-        const users = await userModel.find()
+        const users = await userModel.find().sort({ createdAt: -1 })
         res.render('admin/users', { users, success: "User updated successfully", error: null })
 
     } catch (error) {
@@ -75,11 +75,55 @@ const updateUser = async (req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    const { id } = req.body
+    try {
+        await userModel.findByIdAndDelete(id)
+
+        const users = await userModel.find().sort({ createdAt: -1 })
+        return res.render('admin/users', { users, success: "User Deleted successfully", error: null })
+    } catch (error) {
+        console.error('Error from delete user =', error.message, error.stack);
+
+    }
+
+
+}
+
+
+const blockUser = async (req, res) => {
+    try {
+        const user = await userModel.findById(req.params.id)
+        if (!user) {
+            return res.status(403).render('admin/users', { success: null, error: 'No user found' })
+        }
+
+        user.isBlock = !user.isBlock
+        await user.save()
+
+
+        const users = await userModel.find()
+        return res.render('admin/users', { users, success: 'User block status updated', error: null })
+
+
+    } catch (error) {
+        console.error('Error from block user = ', error.message, error.stack);
+        res.status(500).render('admin/users',
+            {
+                users: [],
+                success: null,
+                error: 'Something went wrong'
+            }
+        )
+    }
+}
+
+
 
 // const sortDashboard = async (req, res) => {
 //     try {
-//         const users = await userModel.find({}).sort({ createdAt: -1 })
-//         res.render('admin/adminLogin', { users, error: null, success: null })
+//         const users = await userModel.find().sort({ createdAt: -1 })
+//         res.render('admin/users', { users, error: null, success: null })
 //         console.log("SortDashboard = ", users);
 
 
@@ -93,5 +137,6 @@ module.exports = {
     postAdmin,
     updateUser,
     addUser,
-
+    deleteUser,
+    blockUser
 }
