@@ -12,13 +12,15 @@ async function postRegisterUser(req, res) {
     const { username, email, password, confirmPassword } = req.body
 
     if (password !== confirmPassword) {
-        return res.render('auth/register', { error: 'Password do not match', success : null })
+        return res.render('auth/register', { error: 'Password do not match', success: null })
     }
 
     try {
         //   NEED TO CHECK EXISTING USER HERE
         const existingUser = await registerUser.findOne({ email })
-        if (existingUser) res.render('auth/register', { success: null, error: 'User already exists' })
+        if (existingUser) {
+            return res.render('auth/register', { success: null, error: 'User already exists' })
+        }
 
         const hashedPassword = await bcrypt.hash(password, saltRound)
 
@@ -28,12 +30,12 @@ async function postRegisterUser(req, res) {
             password: hashedPassword,
 
         })
-        res.redirect('/login?Success=Account Created Succesfully')
+        return res.redirect('/login?Success=Account Created Succesfully')
 
     } catch (error) {
         console.error('Error is post register user = ', error.message, error.stack)
 
-        res.redirect('auth/register', { error: 'Signup failed, Please try again', success: null })
+        return res.status(403).redirect('auth/register', { error: 'Signup failed, Please try again', success: null })
 
     }
 }
