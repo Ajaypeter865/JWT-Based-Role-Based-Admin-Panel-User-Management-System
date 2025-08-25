@@ -42,8 +42,8 @@
                   <button class="btn btn-update" data-bs-toggle="modal" data-bs-target="#updateModal-<%= user.id %>">Update</button>
                   <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal-<%= user.id %>">Delete</button>
 
-                  <% if (user.status === false) { %>
-                    <form method="POST" action="/admin/block-user" style="display:inline">
+                  <% if (user.isBlock === true) { %>
+                    <form method="POST" action="/admin/block-user/<%= user.id %>" style="display:inline">
                       <input type="hidden" name="id" value="<%= user.id %>">
                       <input type="hidden" name="status" value="true">
                       <button class="btn btn-unblock">Unblock</button>

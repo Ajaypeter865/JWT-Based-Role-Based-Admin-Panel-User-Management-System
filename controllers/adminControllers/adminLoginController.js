@@ -102,7 +102,7 @@ const blockUser = async (req, res) => {
         await user.save()
 
 
-        const users = await userModel.find()
+        const users = await userModel.find().sort({createdAt: -1})
         return res.render('admin/users', { users, success: 'User block status updated', error: null })
 
 

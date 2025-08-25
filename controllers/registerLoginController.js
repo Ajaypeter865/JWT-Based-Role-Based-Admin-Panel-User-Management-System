@@ -47,6 +47,8 @@ async function postLoginUser(req, res) {
         const signupUser = await registerUser.findOne({ email })
         if (!signupUser) return res.render('auth/login', { error: 'User do not exist', success: null })
 
+            if(signupUser.isBlock) return res.render('auth/login', {error : 'You are blocked by admin', success : null})
+
         const isMatch = await bcrypt.compare(password, signupUser.password)
         if (!isMatch) return res.render('auth/login', { error: 'Password do not match', success: null })
 
@@ -57,7 +59,7 @@ async function postLoginUser(req, res) {
 
         res.cookie('userToken', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
 
-        res.render('dashboard/dashboard', { user: signupUser, success: null, error: null })
+       return res.render('dashboard/dashboard', { user: signupUser, success: null, error: null })
 
     } catch (error) {
         console.error('Error is postloginuser = ', error.message, error.stack)
