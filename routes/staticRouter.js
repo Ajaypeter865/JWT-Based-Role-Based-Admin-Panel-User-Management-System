@@ -18,6 +18,9 @@ router.get('/admin', async (req, res) => {
     return res.render('admin/adminLogin', { success: null, error: null })
 })
 
+router.get('/forgotpassword', async (req, res) => {
+    return res.render('auth/forgotPassword', { success: null, error: null, message: null })
+})
 
 //  ROUTER - GET / USERS
 // router.get('/users', protectedAuthAdmin,postAdmin, async (req, res) => {

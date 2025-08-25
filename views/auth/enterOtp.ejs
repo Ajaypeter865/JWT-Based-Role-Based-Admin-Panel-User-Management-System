@@ -1,0 +1,24 @@
+<!-- Enter OTP Modal -->
+<div class="modal fade" id="enterOtpModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="/user/enterOtp" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter OTP</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="email" value="<%= email %>" />
+          <label>OTP:</label>
+          <input type="text" name="otp" maxlength="6" class="form-control" required />
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Verify OTP</button>
+        </div>
+        <% if (message) { %>
+          <div class="text-center text-success mt-2"><%= message %></div>
+        <% } %>
+      </form>
+    </div>
+  </div>
+</div>

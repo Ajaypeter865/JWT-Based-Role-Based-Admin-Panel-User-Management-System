@@ -20,7 +20,9 @@ const userSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    restOtp: Number,
+    otpExpires: Date,
 })
 
 const userModel = mongoose.model('user', userSchema)
