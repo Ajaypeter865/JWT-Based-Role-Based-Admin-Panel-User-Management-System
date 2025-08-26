@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer')
 
 const userModel = require('../models/User')
 const SMTPTransport = require('nodemailer/lib/smtp-transport')
+const { use } = require('../routes/staticRouter')
 
 require('dotenv').config()
 
@@ -79,24 +80,13 @@ async function forgotPassword(req, res) {
         if (!user) return res.render('auth/login', { message: 'No user found ' })
 
         const otp = Math.floor(10000 + Math.random() * 90000)
-        console.log(otp);
+        console.log('The otp is = ', otp);
         const otpExpires = new Date(Date.now() + 5 * 60 * 1000)
 
         user.restOtp = otp;
         user.otpExpires = otpExpires
         await user.save()
 
-        // const options: SMTPTransport.Options = {
-        //     host: process.env.EMAIL_HOST,
-        //     port:  465,
-        //     secure: false,
-        //     auth: {
-        //         user: process.env.emailUser,
-        //         pass: process.env.emailPassword,
-        //     }
-        // }
-
-        // const transporter = nodemailer.createTransport(options)
 
         const transporter = nodemailer.createTransport({
 
@@ -117,7 +107,7 @@ async function forgotPassword(req, res) {
 
         })
 
-        res.render('auth/enterOtp', { message: 'Your otp send successfully to your mail' })
+        res.render('auth/enterOtp', {email, message: 'Your otp send successfully to your mail' })
     } catch (error) {
         console.error('Error from forgot password =', error.message, error.stack);
 
@@ -126,7 +116,27 @@ async function forgotPassword(req, res) {
     }
 }
 
+async function verifyOtp(req, res) {
+    const { email, otp } = req.body
+    try {
+        const user = await userModel.findOne({ email })
+
+        if (!user || Number(otp) !== user.restOtp || user.otpExpires < new Date()) {
+            return res.render('auth/forgotPassword', { message: 'Invalid otp or email' })
+        }
+        res.render('auth/restPassword', {email, message: 'Otp verified' })
+    } catch (error) {
+        console.error('Error from verify otp = ', error.message, error.stack);
+        res.render('auth/restPassowd', { message: 'Something went wrong' })
+    }
+
+}
+
+
+
 module.exports = {
     postRegisterUser,
     postLoginUser,
+    forgotPassword,
+    verifyOtp,
 }

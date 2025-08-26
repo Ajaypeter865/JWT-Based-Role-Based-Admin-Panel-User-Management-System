@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { postAdmin, updateUser, addUser, deleteUser, blockUser } = require('../controllers/adminControllers/adminLoginController')
+const { postAdmin, updateUser, addUser, deleteUser, blockUser, } = require('../controllers/adminControllers/adminLoginController')
 
 router.post('/admin', postAdmin)
 router.post('/admin/update-user', updateUser)

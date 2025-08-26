@@ -22,6 +22,8 @@ router.get('/forgotpassword', async (req, res) => {
     return res.render('auth/forgotPassword', { success: null, error: null, message: null })
 })
 
+
+
 //  ROUTER - GET / USERS
 // router.get('/users', protectedAuthAdmin,postAdmin, async (req, res) => {
 //     console.log("Procted admin =", protectedAuthAdmin);
