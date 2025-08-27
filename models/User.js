@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    restOtp: Number,
+restOtp: Number,
     otpExpires: Date,
 })
 
