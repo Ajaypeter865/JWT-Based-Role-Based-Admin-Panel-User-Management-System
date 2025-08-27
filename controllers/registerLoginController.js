@@ -10,6 +10,8 @@ const nodemailer = require("nodemailer");
 const userModel = require("../models/User");
 const SMTPTransport = require("nodemailer/lib/smtp-transport");
 const { use } = require("../routes/staticRouter");
+const { emit } = require("process");
+const { default: mongoose } = require("mongoose");
 
 require("dotenv").config();
 
@@ -160,17 +162,50 @@ async function verifyOtp(req, res) {
         message: "Invalid otp or email",
       });
     }
-    res.render("auth/restPassword", { email, message: "Otp verified" });
+    console.log('Rendering resetPassword with:', {
+      email: user.email,
+      userId: user._id
+    });
+
+    res.render("auth/restPassword", { email, userId: user.id, message: "Otp verified" });
   } catch (error) {
     console.error("Error from verify otp = ", error.message, error.stack);
     res.render("auth/forgotPassword", { message: "Something went wrong" });
   }
 }
 
+
 async function restPassword(req, res) {
-  const { password, confirmPassword } = req.body
-  if (password !== confirmPassword) return res.render('auth/restPassword', { message: 'Password does' })
-    
+  const { id, email, password, confirmPassword } = req.body
+  console.log('req body =', req.body);
+  try {
+
+    if (password !== confirmPassword) {
+      return res.render('auth/restPassword',
+        { email, userId: id, message: 'Password do not match' })
+
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10)
+    const user = await userModel.findByIdAndUpdate(id, { password: hashedPassword },
+      { new: true })
+
+    if (!user) {
+      return res.status(404).render('auth/restPassword',
+        { email, userId: id, meessage: 'No user found' })
+    }
+    console.log('Password updated for = ', user.email);
+
+    return res.render('auth/login',
+      { email, success: 'Password reset successfully - Please log in', error: null })
+
+
+  } catch (error) {
+    console.error('Error in restpassword = ', error.meessage, error.stack);
+    res.status(500).render('auth/restPassword',
+      { email, userId: id, message: 'Something went wrong' })
+
+  }
 }
 
 
@@ -180,4 +215,5 @@ module.exports = {
   postLoginUser,
   forgotPassword,
   verifyOtp,
+  restPassword,
 };

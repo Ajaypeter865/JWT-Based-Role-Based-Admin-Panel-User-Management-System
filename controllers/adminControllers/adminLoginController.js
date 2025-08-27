@@ -54,6 +54,7 @@ const addUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const { id, email, password } = req.body
+    
     try {
         const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -99,7 +100,7 @@ const blockUser = async (req, res) => {
         }
 
         user.isBlock = !user.isBlock
-        await user.save()
+        await user?.save()
 
 
         const users = await userModel.find().sort({createdAt: -1})
