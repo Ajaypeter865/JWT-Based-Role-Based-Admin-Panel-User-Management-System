@@ -7,8 +7,6 @@ function getToken(req) {
 const protectedAuth = (req, res, next) => {
 
     const token = getToken(req)
-
-
     if (!token) {
         return res.redirect('/login')
     }
@@ -16,15 +14,11 @@ const protectedAuth = (req, res, next) => {
         const payload = jwt.verify(token, process.env.secretKey)
 
         req.auth = payload
-
-
         next()
-
     } catch (error) {
         console.error("JWT verification failed:", error.message);
 
         return res.redirect("/login")
-
     }
 }
 

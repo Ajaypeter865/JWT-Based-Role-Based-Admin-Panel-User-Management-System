@@ -10,8 +10,8 @@ async function getDashboard(req, res) {
         return res.render('dashboard/dashboard', { user, success: null, error: null })
 
     } catch (error) {
-        console.error(error)
-        res.render('auth/login', {  success: null, error: 'Failed to load Dashboard' })
+        console.error('Error from getDashboard', error.meessage, error.stack)
+        res.render('auth/login', { success: null, error: 'Failed to load Dashboard' })
 
     }
 }
