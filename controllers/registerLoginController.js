@@ -35,6 +35,10 @@ async function postRegisterUser(req, res) {
       });
     }
 
+    if(password.length < 5){
+      return res.render('auth/register', {success: null, error: 'Password must have 5 charaters'})
+    }
+
     const hashedPassword = await bcrypt.hash(password, saltRound);
 
     await registerUser.create({
@@ -100,7 +104,7 @@ async function postLoginUser(req, res) {
     });
   } catch (error) {
     console.error("Error is postloginuser = ", error.message, error.stack);
-    res.status(500).send("Server error");
+    return res.status(500).send("Server error");
   }
 }
 
@@ -150,7 +154,7 @@ async function forgotPassword(req, res) {
 
 async function verifyOtp(req, res) {
   const { email, otp } = req.body;
-  console.log(typeof otp);
+
 
   const otpJoin = otp.join('')
 
@@ -167,7 +171,7 @@ async function verifyOtp(req, res) {
       userId: user._id
     });
 
-    res.render("auth/restPassword", { email, userId: user.id, message: "Otp verified" });
+    return res.render("auth/restPassword", { email, userId: user.id, message: "Otp verified" });
   } catch (error) {
     console.error("Error from verify otp = ", error.message, error.stack);
     res.render("auth/forgotPassword", { message: "Something went wrong" });

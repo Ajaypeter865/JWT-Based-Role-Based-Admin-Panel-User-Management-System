@@ -8,6 +8,7 @@ const adminSchema = new mongoose.Schema({
     password: {
         type: String,
         require: true,
+         minlength : 5,
     }
 })
 

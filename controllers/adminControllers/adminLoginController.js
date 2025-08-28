@@ -38,10 +38,21 @@ async function postAdmin(req, res) {
 const addUser = async (req, res) => {
     const { email, password } = req.body
     try {
+
+        const existingUser = await userModel.findOne({ email })
+        
+        if (existingUser) {
+            const users = await userModel.find().sort({ createdAt: -1 })
+            return res.render('admin/users', {users, success: null, error: 'User already exits' })
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10)
+
 
         const userName = email.split('@')[0]
         await userModel.insertOne({ email, password: hashedPassword, user_name: userName })
+
+
 
         const users = await userModel.find().sort({ createdAt: -1 })
         return res.render('admin/users', { users, success: "User added successfully", error: null })
@@ -54,7 +65,7 @@ const addUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const { id, email, password } = req.body
-    
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -103,7 +114,7 @@ const blockUser = async (req, res) => {
         await user?.save()
 
 
-        const users = await userModel.find().sort({createdAt: -1})
+        const users = await userModel.find().sort({ createdAt: -1 })
         return res.render('admin/users', { users, success: 'User block status updated', error: null })
 
 
