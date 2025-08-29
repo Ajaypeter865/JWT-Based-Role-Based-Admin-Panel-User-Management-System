@@ -40,10 +40,14 @@ const addUser = async (req, res) => {
     try {
 
         const existingUser = await userModel.findOne({ email })
-        
+
         if (existingUser) {
             const users = await userModel.find().sort({ createdAt: -1 })
-            return res.render('admin/users', {users, success: null, error: 'User already exits' })
+            return res.render('admin/users', { users, success: null, error: 'User already exits' })
+        }
+        if (req.validationErrors) {
+            const users = await userModel.find().sort({ createdAt: -1 })
+            return res.render('admin/users', { users, success: null, error: 'Error in validation' })
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -55,6 +59,7 @@ const addUser = async (req, res) => {
 
 
         const users = await userModel.find().sort({ createdAt: -1 })
+
         return res.render('admin/users', { users, success: "User added successfully", error: null })
 
     } catch (error) {
@@ -67,7 +72,10 @@ const updateUser = async (req, res) => {
     const { id, email, password } = req.body
 
     try {
-        
+        if (req.validationErrors) {
+            const users = await userModel.find().sort({ createdAt: -1 })
+            return res.render('admin/users', { users, success: null, error: 'Error in validation' })
+        }
         const hashedPassword = await bcrypt.hash(password, 10)
 
         await userModel.findByIdAndUpdate(id,
