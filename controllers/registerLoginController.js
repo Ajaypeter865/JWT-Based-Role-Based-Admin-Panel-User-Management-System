@@ -212,6 +212,11 @@ async function restPassword(req, res) {
   }
 }
 
+const logout = (req, res) => {
+  
+  res.clearCookie('userToken')
+  res.render('auth/login', {error : null, success: null})
+}
 
 
 module.exports = {
@@ -220,4 +225,5 @@ module.exports = {
   forgotPassword,
   verifyOtp,
   restPassword,
+  logout,
 };

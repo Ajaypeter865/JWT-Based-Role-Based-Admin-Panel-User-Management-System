@@ -22,3 +22,15 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     e.preventDefault();
   }
 }); 
+
+["username", "password"].forEach(id => {
+    const input = document.getElementById(id);
+    if (input) {
+        input.addEventListener("input", function () {
+            const serverError = document.getElementById("loginError");
+            if (serverError) {
+                serverError.style.display = "none";
+            }
+        });
+    }
+});

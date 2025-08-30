@@ -8,6 +8,7 @@ router.post('/login', registerLoginController.postLoginUser)
 router.post('/auth/forgotPassword', registerLoginController.forgotPassword)
 router.post('/auth/enterOtp', registerLoginController.verifyOtp)
 router.post('/auth/resetPassword/', registerLoginController.restPassword)
+router.post('/logout', registerLoginController.logout)
 
 
 
