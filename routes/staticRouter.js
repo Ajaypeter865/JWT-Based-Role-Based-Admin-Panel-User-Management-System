@@ -1,6 +1,6 @@
 const express = require('express')
 const { getDashboard } = require('../controllers/dashboardController')
-const { protectedAuth, protectedAuthAdmin } = require('../middlewares/auth')
+const { protectedAuth } = require('../middlewares/auth')
 const router = express.Router()
 
 router.get('/', async (req, res) => {
@@ -21,6 +21,7 @@ router.get('/admin', async (req, res) => {
 router.get('/forgotpassword', async (req, res) => {
     return res.render('auth/forgotPassword', { success: null, error: null, message: null })
 })
+
 
 
 
