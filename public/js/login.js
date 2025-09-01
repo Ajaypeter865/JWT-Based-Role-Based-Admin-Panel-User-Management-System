@@ -23,6 +23,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
   }
 }); 
 
+
 ["username", "password"].forEach(id => {
     const input = document.getElementById(id);
     if (input) {

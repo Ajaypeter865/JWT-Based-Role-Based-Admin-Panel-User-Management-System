@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>User Dashboard</title>
@@ -15,18 +16,22 @@
       transition: transform 0.2s ease;
     }
 
+
     .logout-btn:hover {
       transform: scale(1.05);
       box-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
     }
   </style>
 </head>
+
 <body class="bg-light">
 
   <div class="container mt-5">
     <div class="card shadow-sm p-4 text-center">
       <h2 class="mb-3">Welcome, <%= user.user_name %> 👋</h2>
-      <p class="lead">Email: <strong><%= user.email %></strong></p>
+      <p class="lead">Email: <strong>
+          <%= user.email %>
+        </strong></p>
 
       <!-- Logout Button -->
       <form action="/logout" method="POST" class="mt-4">
@@ -36,5 +41,5 @@
   </div>
 
 </body>
-</html>
 
+</html>
