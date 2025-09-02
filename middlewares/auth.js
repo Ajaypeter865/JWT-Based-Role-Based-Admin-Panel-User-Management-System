@@ -8,7 +8,6 @@ const protectedAuth =async (req, res, next) => {
 
     const token =await getToken(req)
 
-    console.log('Token  found');
     console.log('Token  found', token);
      
     if (!token) {

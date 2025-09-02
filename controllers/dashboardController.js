@@ -6,13 +6,21 @@ const signupUser = require('../models/User')
 
 async function getDashboard(req, res) {
     try {
-        // const user = await signupUser.findOne({ email })
-        // console.log('user =',user);
         const users = await signupUser.findById(req.auth._id)
-        if (!users) return res.render('auth/login', { success: null, error: 'No user found' })
-        
+        res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Expires", "0");
+        res.setHeader("Surrogate-Control", "no-store");
 
-        return res.render('dashboard/dashboard', { success: null, error: null })
+
+
+        if (!users) return res.render('auth/login', { success: null, error: 'No user found' })
+            
+
+        // TRY
+        // const user = await signupUser.findOne({ email: req.body.email })
+        // console.log('user =', user);
+        return res.render('dashboard/dashboard', { user, success: null, error: null }) 
 
     } catch (error) {
         console.error('Error from getDashboard', error.meessage, error.stack)

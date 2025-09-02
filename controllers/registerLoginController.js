@@ -104,7 +104,9 @@ async function postLoginUser(req, res) {
     });
 
     // TRY
+  
     // return res.redirect('/dashboard')
+
   } catch (error) {
     console.error("Error is postloginuser = ", error.message, error.stack);
     return res.status(500).send("Server error");
