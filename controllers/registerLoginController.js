@@ -102,6 +102,9 @@ async function postLoginUser(req, res) {
       success: null,
       error: null,
     });
+
+    // TRY
+    // return res.redirect('/dashboard')
   } catch (error) {
     console.error("Error is postloginuser = ", error.message, error.stack);
     return res.status(500).send("Server error");
@@ -212,7 +215,7 @@ async function restPassword(req, res) {
   }
 }
 
-const logout = (req, res) => {
+const logout= (req, res) => {
   
   res.clearCookie('userToken')
   res.render('auth/login', {error : null, success: null})

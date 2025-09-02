@@ -139,25 +139,19 @@ const blockUser = async (req, res) => {
     }
 }
 
+const logoutAdmin = (req, res) => {
+
+    res.clearCookie('adminToken')
+    res.render('admin/adminLogin', { error: null, success: null })
+}
 
 
-// const sortDashboard = async (req, res) => {
-//     try {
-//         const users = await userModel.find().sort({ createdAt: -1 })
-//         res.render('admin/users', { users, error: null, success: null })
-//         console.log("SortDashboard = ", users);
-
-
-//     } catch (error) {
-//         console.error(error);
-
-//     }
-// }
 
 module.exports = {
     postAdmin,
     updateUser,
     addUser,
     deleteUser,
-    blockUser
+    blockUser,
+    logoutAdmin
 }

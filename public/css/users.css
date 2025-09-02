@@ -11,7 +11,8 @@ body {
 }
 
 /* Table styling */
-.table th, .table td {
+.table th,
+.table td {
   vertical-align: middle;
   text-align: center;
 }
@@ -80,7 +81,24 @@ body {
     margin-top: 10px;
   }
 
-  .table th, .table td {
+  .table th,
+  .table td {
     font-size: 0.85rem;
   }
+}
+
+.logout-admin {
+  background: linear-gradient(90deg, #8e2de2, #4a00e0);
+  color: white;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.logout-admin:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
 }
